@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Default Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            margin: 10px 0;
+            padding: 8px;
+        }
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .description {
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align: center;">Loan Default Prediction</h2>
+    <form action="/predict" method="post">
+        <label>Loan Limit:</label>
+        <select name="loan_limit">
+            <option value="cf">CF (Conforming Loan)</option>
+            <option value="ncf">NCF (Non-Conforming Loan)</option>
+        </select>
+        <p class="description">CF: Conforming Loan, NCF: Non-Conforming Loan</p>
+
+        <label>Gender:</label>
+        <select name="Gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <p class="description">Select the applicant's gender.</p>
+
+        <label>Loan Type:</label>
+        <select name="loan_type">
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
+            <option value="type3">Type 3</option>
+        </select>
+        <p class="description">Different loan categories.</p>
+
+        <label>Business or Commercial:</label>
+        <select name="business_or_commercial">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <p class="description">Is the loan for a business or commercial purpose?</p>
+
+        <label>Loan Amount:</label>
+        <input type="number" step="0.01" name="loan_amount" required>
+        <p class="description">Enter the total loan amount in USD.</p>
+
+        <label>Rate of Interest:</label>
+        <input type="number" step="0.01" name="rate_of_interest" required>
+        <p class="description">Enter the interest rate percentage.</p>
+
+        <label>Interest Rate Spread:</label>
+        <input type="number" step="0.01" name="Interest_rate_spread" required>
+        <p class="description">Difference between loan rate and benchmark rate.</p>
+
+        <label>Income:</label>
+        <input type="number" step="0.01" name="income" required>
+        <p class="description">Enter the borrower's annual income in USD.</p>
+
+        <label>Credit Type:</label>
+        <select name="credit_type">
+            <option value="CIB">CIB</option>
+            <option value="CRIF">CRIF</option>
+            <option value="EXP">EXP</option>
+            <option value="EQUI">EQUI</option>
+        </select>
+        <p class="description">CIB: Credit Information Bureau, CRIF: CRIF Credit Solutions, EXP: Experian, EQUI: Equifax.</p>
+
+        <label>Credit Score:</label>
+        <input type="number" name="Credit_Score" required>
+        <p class="description">A numerical representation of creditworthiness.</p>
+
+        <label>Age:</label>
+        <input type="text" name="age" required>
+        <p class="description">Enter the applicant's age.</p>
+
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if prediction_text %}
+        <h3 style="text-align: center; color: blue;">{{ prediction_text }}</h3>
+    {% endif %}
+</body>
+</html>
