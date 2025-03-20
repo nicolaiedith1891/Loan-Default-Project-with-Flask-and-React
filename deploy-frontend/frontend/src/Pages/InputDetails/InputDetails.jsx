@@ -3,16 +3,16 @@ import axios from "axios";
 
 function InputDetails() {
   const [formData, setFormData] = useState({
-    loan: "",
-    gender: "",
-    type: "",
-    financial: "",
+    loan_limit: "",
+    Gender: "",
+    loan_type: "",
+    business_or_commercial: "",
     credit_type: "",
     loan_amount: "",
-    interest_rate: "",
-    rate_spread: "",
+    rate_of_interest: "",
+    Interest_rate_spread: "",
     income: "",
-    credit_score: "",
+    Credit_Score: "",
     age: "",
   });
 
@@ -25,10 +25,20 @@ function InputDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Form Submitted Data:", formData);
-
+  
+    // Convert numerical fields to numbers
+    const payload = {
+      ...formData,
+      loan_amount: parseFloat(formData.loan_amount),
+      rate_of_interest: parseFloat(formData.rate_of_interest),
+      Interest_rate_spread: parseFloat(formData.Interest_rate_spread),
+      income: parseFloat(formData.income),
+      Credit_Score: parseFloat(formData.Credit_Score),
+    };
+  
     try {
-      const response = await axios.post("http://127.0.0.1:5000/predict", formData);
-      setPrediction(response.data.prediction); // Store prediction result
+      const response = await axios.post("http://127.0.0.1:5000/predict", payload);
+      setPrediction(response.data.prediction === "Approve" ? 0 : 1); // Update prediction state
     } catch (error) {
       console.error("Error submitting form:", error);
       setPrediction("Error processing request");
@@ -45,20 +55,20 @@ function InputDetails() {
           </h1>
         </div>
 
-        {/* Loan Amount */}
+        {/* Loan Limit */}
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-white">
-            Loan Amount:
+            Loan Limit:
           </label>
           <select
-            name="loan"
-            value={formData.loan}
+            name="loan_limit"
+            value={formData.loan_limit}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           >
-            <option value="">Select Loan Type</option>
-            <option value="CF">CF (Confirming Loan)</option>
-            <option value="Canceling">Canceling</option>
+            <option value="">Select Loan Limit</option>
+            <option value="cf">CF (Confirming Loan)</option>
+            <option value="ncf">NCF (Non-Confirming Loan)</option>
           </select>
           <p className="mt-1 text-[10px] text-gray-900 dark:text-gray-200">CF: Conforming Loan, NCF: Non-Conforming Loan</p>
         </div>
@@ -69,14 +79,16 @@ function InputDetails() {
             Gender:
           </label>
           <select
-            name="gender"
-            value={formData.gender}
+            name="Gender"
+            value={formData.Gender}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
+            <option value="Joint">Joint</option>
+            <option value="Sex Not Available">Sex Not Available</option>
           </select>
           <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Select the applicant's gender.</p>
         </div>
@@ -87,14 +99,14 @@ function InputDetails() {
             Loan Type:
           </label>
           <select
-            name="type"
-            value={formData.type}
+            name="loan_type"
+            value={formData.loan_type}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           >
             <option value="">Select Loan Type</option>
-            <option value="Type 1">Type 1</option>
-            <option value="Type 2">Type 2</option>
+            <option value="type1">Type 1</option>
+            <option value="type2">Type 2</option>
           </select>
           <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Different loan categories.</p>
         </div>
@@ -105,25 +117,22 @@ function InputDetails() {
             Business or Commercial:
           </label>
           <select
-            name="financial"
-            value={formData.financial}
+            name="business_or_commercial"
+            value={formData.business_or_commercial}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           >
             <option value="">Select</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
+            <option value="b/c">Yes</option>
+            <option value="nob/c">No</option>
           </select>
-          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200"> Is the loan for a business or commercial purpose?</p>
+          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Is the loan for a business or commercial purpose?</p>
         </div>
 
         {/* Credit Type */}
         <div className="mb-5">
-          <label
-            htmlFor="credit_type"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >
-            Credit Type :
+          <label className="block mb-2 text-sm font-medium text-white">
+            Credit Type:
           </label>
           <select
             name="credit_type"
@@ -177,12 +186,12 @@ function InputDetails() {
           <input
             type="number"
             step="0.01"
-            name="interest_rate"
-            value={formData.interest_rate}
+            name="rate_of_interest"
+            value={formData.rate_of_interest}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           />
-          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Enter the interest rate percentage</p>
+          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Enter the interest rate percentage.</p>
         </div>
 
         {/* Rate Spread */}
@@ -193,12 +202,12 @@ function InputDetails() {
           <input
             type="number"
             step="0.01"
-            name="rate_spread"
-            value={formData.rate_spread}
+            name="Interest_rate_spread"
+            value={formData.Interest_rate_spread}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           />
-          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200"> Difference between loan rate and benchmark rate.</p>
+          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Difference between loan rate and benchmark rate.</p>
         </div>
 
         {/* Income */}
@@ -214,7 +223,7 @@ function InputDetails() {
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
           />
-          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200"> Enter the borrower's annual income in USD.</p>
+          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Enter the borrower's annual income in USD.</p>
         </div>
 
         {/* Credit Score */}
@@ -224,8 +233,8 @@ function InputDetails() {
           </label>
           <input
             type="number"
-            name="credit_score"
-            value={formData.credit_score}
+            name="Credit_Score"
+            value={formData.Credit_Score}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
             required
@@ -238,22 +247,27 @@ function InputDetails() {
           <label className="block mb-2 text-sm font-medium text-white">
             Age:
           </label>
-          <input
-            type="number"
+          <select
             name="age"
             value={formData.age}
             onChange={handleChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5"
-          />
-          <p className="mb-2 text-[10px] text-gray-900 dark:text-gray-200">Enter the applicant's age.</p>
+          >
+            <option value="">Select Age</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+          </select>
+          <p className="mt-1 text-[10px] text-gray-900 dark:text-gray-200">Customer Age</p>
         </div>
 
         {/* Loan Status */}
         <div className="flex justify-between">
-          <h1 className="text-3xl text-white">
-            Loan Status:{" "}
-            {prediction || "Awaiting Submission"}
-          </h1>
+            <h1 className="text-3xl text-white">
+              Loan Status:{" "}
+              {prediction === 0 ? "Approved" : prediction === 1 ? "Rejected" : "Awaiting Submission"}
+            </h1>
         </div>
       </form>
     </div>
