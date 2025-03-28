@@ -81,7 +81,7 @@ React app runs on: `http://localhost:3000`
   "credit_type": "EXP",
   "Credit_Score": 800,
   "age": "35-44"
-}
+  }
   ```
   **Response:**
   ```json
@@ -98,15 +98,3 @@ React app runs on: `http://localhost:3000`
 - 📊 **Improve Model Accuracy** with more advanced ML techniques.
 - 📌 **Add Database Support** to store application history.
 - 🌍 **Deploy on Cloud** using AWS/GCP.
-
-## 🤝 Contributing
-Contributions are welcome! Feel free to **fork** the repository and submit a **pull request**.
-
-## 📜 License
-This project is licensed under the **MIT License**.
-
----
-📌 **Author:** *Dasun Wijekumara*  
-💻 **GitHub:** [nicolaiedith1891](https://github.com/nicolaiedith1891)  
-✉️ **Contact:** tharushwijekumara@example.com
-
